@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tryton>
+    <data>
+
+        <!-- UPS Service Type -->
+        <record id="shipping_method_01" model="ups.service">
+            <field name="name">Next Day Air</field>
+            <field name="code">01</field>
+        </record>
+        <record id="shipping_method_02" model="ups.service">
+            <field name="name">2nd Day Air</field>
+            <field name="code">02</field>
+        </record>
+        <record id="shipping_method_03" model="ups.service">
+            <field name="name">Ground</field>
+            <field name="code">03</field>
+        </record>
+        <record id="shipping_method_04" model="ups.service">
+            <field name="name">Express</field>
+            <field name="code">07</field>
+        </record>
+        <record id="shipping_method_05" model="ups.service">
+            <field name="name">Expedited</field>
+            <field name="code">08</field>
+        </record>
+        <record id="shipping_method_06" model="ups.service">
+            <field name="name">UPS Standard</field>
+            <field name="code">11</field>
+        </record>
+        <record id="shipping_method_07" model="ups.service">
+            <field name="name">3 Day Select</field>
+            <field name="code">12</field>
+        </record>
+        <record id="shipping_method_08" model="ups.service">
+            <field name="name">Next Day Air Saver</field>
+            <field name="code">13</field>
+        </record>
+        <record id="shipping_method_09" model="ups.service">
+            <field name="name">Next Day Air Early AM</field>
+            <field name="code">14</field>
+        </record>
+        <record id="shipping_method_10" model="ups.service">
+            <field name="name">Express Plus</field>
+            <field name="code">54</field>
+        </record>
+        <record id="shipping_method_11" model="ups.service">
+            <field name="name">2nd Day Air A.M.</field>
+            <field name="code">59</field>
+        </record>
+        <record id="shipping_method_12" model="ups.service">
+            <field name="name">UPS Saver</field>
+            <field name="code">65</field>
+        </record>
+        <record id="shipping_method_13" model="ups.service">
+            <field name="name">UPS Today Standard</field>
+            <field name="code">82</field>
+        </record>
+        <record id="shipping_method_14" model="ups.service">
+            <field name="name">UPS Today Dedicated Courier</field>
+            <field name="code">83</field>
+        </record>
+        <record id="shipping_method_15" model="ups.service">
+            <field name="name">UPS Today Intercity</field>
+            <field name="code">84</field>
+        </record>
+        <record id="shipping_method_16" model="ups.service">
+            <field name="name">UPS Today Express</field>
+            <field name="code">85</field>
+        </record>
+        <record id="shipping_method_17" model="ups.service">
+            <field name="name">UPS Today Express Saver</field>
+            <field name="code">86</field>
+        </record>
+
+    </data>
+</tryton>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<form string="UPS Configuration">
+    <group string="Account Crendentials" id="credentials" colspan="4">
+        <label name="license_key"/>
+        <field name="license_key"/>
+        <label name="user_id"/>
+        <field name="user_id"/>
+        <label name="password"/>
+        <field name="password"/>
+        <label name="is_test"/>
+        <field name="is_test"/>
+
+        <label name="shipper_no"/>
+        <field name="shipper_no"/>
+        <label name="uom_system"/>
+        <field name="uom_system"/>
+    </group>
+</form>
