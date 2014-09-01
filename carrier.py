@@ -46,7 +46,7 @@ class Carrier:
             return Decimal('0'), None
 
         if self.carrier_cost_method != 'ups':
-            return super(Carrier, self).get_sale_price(self)
+            return super(Carrier, self).get_sale_price()
 
         if sale:
             return Sale(sale).get_ups_shipping_cost()
