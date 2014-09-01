@@ -80,13 +80,15 @@ class Address:
         vals = {}
         if not self.party.phone:
             self.raise_user_error(
-                "ups_field_missing", 'Phone no.', '"from address"'
+                "ups_field_missing",
+                error_args=('Phone no.', '"from address"')
             )
 
         company_id = Transaction().context.get('company')
         if not company_id:
             self.raise_user_error(
-                "ups_field_missing", 'Company', 'context'
+                "ups_field_missing",
+                error_args=('Company', 'context')
             )
 
         company_party = Company(company_id).party
@@ -119,7 +121,8 @@ class Address:
         party = self.party
         if not party.phone:
             self.raise_user_error(
-                "ups_field_missing", 'Phone no.', '"to address"'
+                "ups_field_missing",
+                error_args=('Phone no.', '"to address"')
             )
 
         tax_identification_number = ''
@@ -161,13 +164,14 @@ class Address:
         vals = {}
         if not self.party.phone:
             self.raise_user_error(
-                "ups_field_missing", 'Phone no.', '"Shipper Address"'
+                "ups_field_missing",
+                error_args=('Phone no.', '"Shipper Address"')
             )
 
         company_id = Transaction().context.get('company')
         if not company_id:
             self.raise_user_error(
-                "ups_field_missing", ('Company', 'context')
+                "ups_field_missing", error_args=('Company', 'context')
             )
 
         company_party = Company(company_id).party
