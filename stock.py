@@ -189,9 +189,11 @@ class ShipmentOut:
                 response.ShipmentCharges.TotalCharges.CurrencyCode
             ))
         ])
-        return Decimal(
+
+        shipping_cost = currency.round(Decimal(
             str(response.ShipmentCharges.TotalCharges.MonetaryValue)
-        ), currency
+        ))
+        return shipping_cost, currency
 
     def make_ups_labels(self):
         """
@@ -244,11 +246,12 @@ class ShipmentOut:
                 shipment_res.ShipmentCharges.TotalCharges.CurrencyCode
             ))
         ])
+        shipping_cost = currency.round(Decimal(
+            str(shipment_res.ShipmentCharges.TotalCharges.MonetaryValue)
+        ))
         self.__class__.write([self], {
             'tracking_number': unicode(tracking_number),
-            'cost': Decimal(
-                str(shipment_res.ShipmentCharges.TotalCharges.MonetaryValue)
-            ),
+            'cost': shipping_cost,
             'cost_currency': currency,
         })
 
