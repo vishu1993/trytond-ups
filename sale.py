@@ -177,10 +177,6 @@ class Sale:
             'ups_package_type': self.ups_package_type,
             'ups_saturday_delivery': self.ups_saturday_delivery,
         })
-        for shipment in shipments:
-            with Transaction().set_context(shipment.get_carrier_context()):
-                shipment_cost = self.carrier.get_sale_price()
-            Shipment.write([shipment], {'cost': shipment_cost[0]})
 
     def create_shipment(self, shipment_type):
         """
