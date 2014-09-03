@@ -138,9 +138,9 @@ class Sale:
                         'description': self.ups_service_type.name,
                         'quantity': 1,  # XXX
                         'unit': self.carrier.carrier_product.sale_uom.id,
-                        'unit_price': Decimal(shipment_cost),
-                        'shipment_cost': Decimal(shipment_cost),
-                        'amount': Decimal(shipment_cost),
+                        'unit_price': shipment_cost,
+                        'shipment_cost': shipment_cost,
+                        'amount': shipment_cost,
                         'taxes': [],
                         'sequence': 9999,  # XXX
                     }]),
@@ -270,9 +270,10 @@ class Sale:
                 response.ShipmentCharges.TotalCharges.CurrencyCode
             ))
         ])
-        return Decimal(
+        shipping_cost = currency.round(Decimal(
             str(response.ShipmentCharges.TotalCharges.MonetaryValue)
-        ), currency
+        ))
+        return shipping_cost, currency
 
 
 class SaleLine:
