@@ -193,7 +193,7 @@ class ShipmentOut:
         shipping_cost = currency.round(Decimal(
             str(response.ShipmentCharges.TotalCharges.MonetaryValue)
         ))
-        return shipping_cost, currency
+        return shipping_cost, currency.id
 
     def make_ups_labels(self):
         """
