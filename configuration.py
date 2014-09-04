@@ -94,6 +94,6 @@ class UPSConfiguration(ModelSingleton, ModelSQL, ModelView):
                 license_no=self.license_key,
                 user_id=self.user_id,
                 password=self.password,
-                sandbox=True,
+                sandbox=self.is_test,
                 return_xml=return_xml
             )
