@@ -123,12 +123,12 @@ class Sale:
 
         if self.is_ups_shipping:
             with Transaction().set_context(self._get_carrier_context()):
-                shipment_cost, currency = self.carrier.get_sale_price()
+                shipment_cost, currency_id = self.carrier.get_sale_price()
                 if not shipment_cost:
                     return
             # Convert the shipping cost to sale currency from USD
             shipment_cost = Currency.compute(
-                currency, shipment_cost, self.currency
+                Currency(currency_id), shipment_cost, self.currency
             )
             Sale.write([self], {
                 'lines': [
@@ -273,7 +273,7 @@ class Sale:
         shipping_cost = currency.round(Decimal(
             str(response.ShipmentCharges.TotalCharges.MonetaryValue)
         ))
-        return shipping_cost, currency
+        return shipping_cost, currency.id
 
 
 class SaleLine:
