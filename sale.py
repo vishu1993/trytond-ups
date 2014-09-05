@@ -266,7 +266,7 @@ class Sale:
             E.Shipment(*shipment_args), RequestOption=request_option
         )
 
-    def _get_rate_from_rated_shipment(cls, rated_shipment):
+    def _get_ups_rate_from_rated_shipment(cls, rated_shipment):
         """
         The rated_shipment is an xml container in the response which has the
         standard rates and negotiated rates. This method should extract the
@@ -314,12 +314,12 @@ class Sale:
         except PyUPSException, e:
             self.raise_user_error(unicode(e[0]))
 
-        shipment_cost, currency = self._get_rate_from_rated_shipment(
+        shipment_cost, currency = self._get_ups_rate_from_rated_shipment(
             response.RatedShipment
         )
         return shipment_cost, currency.id
 
-    def _make_rate_line(self, rated_shipment):
+    def _make_ups_rate_line(self, carrier, rated_shipment):
         """
         Build a rate line from the rated shipment
         """
@@ -327,12 +327,12 @@ class Sale:
 
         # First identify the service
         service = UPSService.search([
-            ('code', '=', str(rated_shipment.Service.Code))
+            ('code', '=', str(rated_shipment.Service.Code.text))
         ])
         if not service:
             return
 
-        cost, currency = self._get_rate_from_rated_shipment(rated_shipment)
+        cost, currency = self._get_ups_rate_from_rated_shipment(rated_shipment)
 
         # Extract metadata
         metadata = {}
@@ -345,24 +345,29 @@ class Sale:
 
         # values that need to be written back to sale order
         write_vals = {
+            'carrier': carrier.id,
             'ups_service_type': service[0].id,
         }
 
         return (
-            service[0].name,        # Display name
+            "%s %s" % (
+                carrier.carrier_product.code, service[0].name
+            ),  # Display name
             cost,
-            currency.id,
+            currency,
             metadata,
             write_vals,
         )
 
-    def get_ups_shipping_rates(self):
+    def get_ups_shipping_rates(self, silent=True):
         """
         Call the rates service and get possible quotes for shipping the product
         """
         UPSConfiguration = Pool().get('ups.configuration')
+        Carrier = Pool().get('carrier')
 
         ups_config = UPSConfiguration(1)
+        carrier, = Carrier.search(['carrier_cost_method', '=', 'ups'])
 
         rate_request = self._get_rate_request_xml(mode='shop')
         rate_api = ups_config.api_instance(call="rate")
@@ -370,10 +375,12 @@ class Sale:
         try:
             response = rate_api.request(rate_request)
         except PyUPSException, e:
+            if silent:
+                return []
             self.raise_user_error(unicode(e[0]))
 
         return filter(None, [
-            self._make_rate_line(rated_shipment)
+            self._make_ups_rate_line(carrier, rated_shipment)
             for rated_shipment in response.iterchildren(tag='RatedShipment')
         ])
 
