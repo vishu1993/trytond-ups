@@ -8,6 +8,7 @@
 from trytond.model import fields, ModelSingleton, ModelSQL, ModelView
 from trytond.pool import Pool
 from ups.shipping_package import ShipmentConfirm, ShipmentAccept, ShipmentVoid
+from ups.rating_package import RatingService
 
 __all__ = ['UPSConfiguration']
 
@@ -23,6 +24,7 @@ class UPSConfiguration(ModelSingleton, ModelSQL, ModelView):
     password = fields.Char('UPS User Password', required=True)
     shipper_no = fields.Char('UPS Shipper Number', required=True)
     is_test = fields.Boolean('Is Test')
+    negotiated_rates = fields.Boolean('Use negotiated rates')
     uom_system = fields.Selection([
         ('00', 'Metric Units Of Measurement'),
         ('01', 'English Units Of Measurement'),
@@ -30,6 +32,9 @@ class UPSConfiguration(ModelSingleton, ModelSQL, ModelView):
     weight_uom = fields.Function(
         fields.Many2One('product.uom', 'Weight UOM'),
         'get_default_uom'
+    )
+    weight_uom_code = fields.Function(
+        fields.Char('Weight UOM code'), 'get_uom_code'
     )
     length_uom = fields.Function(
         fields.Many2One('product.uom', 'Length UOM'),
@@ -61,6 +66,23 @@ class UPSConfiguration(ModelSingleton, ModelSQL, ModelView):
             ('symbol', '=', uom_map[self.uom_system][name[:-4]])
         ])[0].id
 
+    def get_uom_code(self, name):
+        """
+        Return UOM code names depending on the system
+        """
+        uom_map = {
+            '00': {  # Metric
+                'weight_uom_code': 'KGS',
+                'length_uom_code': 'cm',
+            },
+            '01': {  # English
+                'weight_uom_code': 'LBS',
+                'length_uom_code': 'in',
+            }
+        }
+
+        return uom_map[self.uom_system][name]
+
     @classmethod
     def __setup__(cls):
         super(UPSConfiguration, cls).__setup__()
@@ -86,6 +108,8 @@ class UPSConfiguration(ModelSingleton, ModelSQL, ModelView):
             call_method = ShipmentAccept
         elif call == 'void':
             call_method = ShipmentVoid
+        elif call == 'rate':
+            call_method = RatingService
         else:
             call_method = None
 

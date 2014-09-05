@@ -12,6 +12,8 @@
 
         <label name="shipper_no"/>
         <field name="shipper_no"/>
+        <label name="negotiated_rates"/>
+        <field name="negotiated_rates"/>
         <label name="uom_system"/>
         <field name="uom_system"/>
     </group>
