@@ -109,8 +109,7 @@ class ShipmentOut:
             Weight=str(sum(map(
                 lambda move: move.get_weight_for_ups(), self.outgoing_moves
             ))),
-            Code=ups_config.uom_system,
-            Description=ups_config.weight_uom.name or 'None'
+            Code=ups_config.weight_uom_code,
         )
         package_service_options = ShipmentConfirm.package_service_options_type(
             ShipmentConfirm.insured_value_type(MonetaryValue='0')

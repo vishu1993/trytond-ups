@@ -31,6 +31,9 @@ class UPSConfiguration(ModelSingleton, ModelSQL, ModelView):
         fields.Many2One('product.uom', 'Weight UOM'),
         'get_default_uom'
     )
+    weight_uom_code = fields.Function(
+        fields.Char('Weight UOM code'), 'get_uom_code'
+    )
     length_uom = fields.Function(
         fields.Many2One('product.uom', 'Length UOM'),
         'get_default_uom'
@@ -60,6 +63,23 @@ class UPSConfiguration(ModelSingleton, ModelSQL, ModelView):
         return UOM.search([
             ('symbol', '=', uom_map[self.uom_system][name[:-4]])
         ])[0].id
+
+    def get_uom_code(self, name):
+        """
+        Return UOM code names depending on the system
+        """
+        uom_map = {
+            '00': {  # Metric
+                'weight_uom_code': 'KGS',
+                'length_uom_code': 'cm',
+            },
+            '01': {  # English
+                'weight_uom_code': 'LBS',
+                'length_uom_code': 'in',
+            }
+        }
+
+        return uom_map[self.uom_system][name]
 
     @classmethod
     def __setup__(cls):
