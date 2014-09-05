@@ -8,6 +8,7 @@
 from trytond.model import fields, ModelSingleton, ModelSQL, ModelView
 from trytond.pool import Pool
 from ups.shipping_package import ShipmentConfirm, ShipmentAccept, ShipmentVoid
+from ups.rating_package import RatingService
 
 __all__ = ['UPSConfiguration']
 
@@ -23,6 +24,7 @@ class UPSConfiguration(ModelSingleton, ModelSQL, ModelView):
     password = fields.Char('UPS User Password', required=True)
     shipper_no = fields.Char('UPS Shipper Number', required=True)
     is_test = fields.Boolean('Is Test')
+    negotiated_rates = fields.Boolean('Use negotiated rates')
     uom_system = fields.Selection([
         ('00', 'Metric Units Of Measurement'),
         ('01', 'English Units Of Measurement'),
@@ -106,6 +108,8 @@ class UPSConfiguration(ModelSingleton, ModelSQL, ModelView):
             call_method = ShipmentAccept
         elif call == 'void':
             call_method = ShipmentVoid
+        elif call == 'rate':
+            call_method = RatingService
         else:
             call_method = None
 

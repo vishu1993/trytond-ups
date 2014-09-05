@@ -34,7 +34,13 @@ class Carrier:
                 ...
             ]
         """
-        # TODO: Implement
+        Sale = Pool().get('sale.sale')
+
+        sale = Transaction().context.get('sale')
+
+        if sale:
+            return Sale(sale).get_ups_shipping_rates()
+
         return []
 
     def get_sale_price(self):
