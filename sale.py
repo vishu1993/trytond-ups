@@ -216,6 +216,12 @@ class Sale:
         )
         return [package_container]
 
+    def _get_ship_from_address(self):
+        """
+        Usually the warehouse from which you ship
+        """
+        return self.warehouse.address
+
     def _get_rate_request_xml(self, mode='rate'):
         """
         Return the E builder object with the rate fetching request
@@ -238,10 +244,8 @@ class Sale:
         shipment_args.extend([
             self.warehouse.address.to_ups_shipper(),        # Shipper
             self.shipment_address.to_ups_to_address(),      # Ship to
-            self.warehouse.address.to_ups_from_address(),   # Ship from
-            RatingService.rate_information_type(
-                negotiated=ups_config.negotiated_rates
-            )
+            self._get_ship_from_address().to_ups_from_address(),   # Ship from
+
         ])
 
         if ups_config.negotiated_rates:
