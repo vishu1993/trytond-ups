@@ -119,11 +119,6 @@ class Address:
         :return: Returns instance of ToAddress
         '''
         party = self.party
-        if not party.phone:
-            self.raise_user_error(
-                "ups_field_missing",
-                error_args=('Phone no.', '"to address"')
-            )
 
         tax_identification_number = ''
         if party.vat_number:
@@ -136,8 +131,10 @@ class Address:
             'CompanyName': self.name and party.name,
             'TaxIdentificationNumber': tax_identification_number,
             'AttentionName': self.name or party.name,
-            'PhoneNumber': digits_only_re.sub('', party.phone),
         }
+
+        if party.phone:
+            vals['PhoneNumber'] = digits_only_re.sub('', party.phone),
 
         fax = party.fax
         if fax:
