@@ -128,7 +128,7 @@ class Address:
             tax_identification_number = party.tax_exemption_number
 
         vals = {
-            'CompanyName': self.name and party.name,
+            'CompanyName': self.name or party.name,
             'TaxIdentificationNumber': tax_identification_number,
             'AttentionName': self.name or party.name,
         }
@@ -176,7 +176,7 @@ class Address:
         vals = {
             'CompanyName': company_party.name,
             'TaxIdentificationNumber': company_party.vat_number,
-            'Name': self.name and self.party.name,
+            'Name': self.name or self.party.name,
             'AttentionName': self.name or self.party.name,
             'PhoneNumber': digits_only_re.sub('', self.party.phone),
             'ShipperNumber': UPSConfiguration(1).shipper_no,
