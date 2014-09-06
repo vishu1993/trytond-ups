@@ -375,6 +375,10 @@ class Sale:
         try:
             response = rate_api.request(rate_request)
         except PyUPSException, e:
+            error = e[0].split(':')
+            if error[0] in ['Hard-111285', 'Hard-111280']:
+                # Invalid Address, can't sit quite !
+                self.raise_user_error(unicode(error[1]))
             if silent:
                 return []
             self.raise_user_error(unicode(e[0]))
