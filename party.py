@@ -134,7 +134,7 @@ class Address:
         }
 
         if party.phone:
-            vals['PhoneNumber'] = digits_only_re.sub('', party.phone),
+            vals['PhoneNumber'] = digits_only_re.sub('', party.phone)
 
         fax = party.fax
         if fax:
