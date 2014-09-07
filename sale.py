@@ -409,7 +409,7 @@ class SaleLine:
 
         ups_config = UPSConfiguration(1)
         if self.product.type == 'service' or self.quantity <= 0:
-            return Decimal('0')
+            return 0
 
         if not self.product.weight:
             self.raise_user_error(
