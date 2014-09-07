@@ -154,16 +154,55 @@ class ShipmentOut:
             else 'None'
         )
 
-        shipment_confirm = \
-            ShipmentConfirm.shipment_confirm_request_type(
-                self.warehouse.address.to_ups_shipper(),
-                self.delivery_address.to_ups_to_address(),
-                self.warehouse.address.to_ups_from_address(),
-                ShipmentConfirm.service_type(Code=self.ups_service_type.code),
-                payment_info, shipment_service,
-                *packages
+        shipment_args = [
+            self.warehouse.address.to_ups_shipper(),
+            self.delivery_address.to_ups_to_address(),
+            self.warehouse.address.to_ups_from_address(),
+            ShipmentConfirm.service_type(Code=self.ups_service_type.code),
+            payment_info, shipment_service,
+        ]
+        if ups_config.negotiated_rates:
+            shipment_args.append(
+                ShipmentConfirm.rate_information_type(negotiated=True)
             )
+
+        shipment_args.extend(packages)
+        shipment_confirm = ShipmentConfirm.shipment_confirm_request_type(
+            *shipment_args
+        )
         return shipment_confirm
+
+    @classmethod
+    def _get_ups_shipment_cost(cls, shipment_confirm):
+        """
+        The shipment_confirm is an xml container in the response which has the
+        standard rates and negotiated rates. This method should extract the
+        value and return it with the currency
+        """
+        Currency = Pool().get('currency.currency')
+        UPSConfiguration = Pool().get('ups.configuration')
+
+        ups_config = UPSConfiguration(1)
+        shipment_charges = shipment_confirm.ShipmentCharges
+
+        currency, = Currency.search([
+            ('code', '=', str(
+                shipment_charges.TotalCharges.CurrencyCode
+            ))
+        ])
+
+        if ups_config.negotiated_rates and \
+                hasattr(shipment_confirm, 'NegotiatedRates'):
+            # If there are negotiated rates return that instead
+            charges = shipment_confirm.NegotiatedRates.NetSummaryCharges
+            charges = currency.round(Decimal(
+                str(charges.GrandTotal.MonetaryValue)
+            ))
+        else:
+            charges = currency.round(
+                Decimal(str(shipment_charges.TotalCharges.MonetaryValue))
+            )
+        return charges, currency
 
     def get_ups_shipping_cost(self):
         """Returns the calculated shipping cost as sent by ups
@@ -171,7 +210,6 @@ class ShipmentOut:
         :returns: The shipping cost with currency
         """
         UPSConfiguration = Pool().get('ups.configuration')
-        Currency = Pool().get('currency.currency')
 
         ups_config = UPSConfiguration(1)
 
@@ -183,15 +221,8 @@ class ShipmentOut:
         except PyUPSException, e:
             self.raise_user_error(unicode(e[0]))
 
-        currency, = Currency.search([
-            ('code', '=', str(
-                response.ShipmentCharges.TotalCharges.CurrencyCode
-            ))
-        ])
+        shipping_cost, currency = self._get_ups_shipment_cost(response)
 
-        shipping_cost = currency.round(Decimal(
-            str(response.ShipmentCharges.TotalCharges.MonetaryValue)
-        ))
         return shipping_cost, currency.id
 
     def make_ups_labels(self):
@@ -322,7 +353,7 @@ class StockMove:
 
         ups_config = UPSConfiguration(1)
         if self.product.type == 'service':
-            return 0
+            return Decimal(0)
 
         if not self.product.weight:
             self.raise_user_error(
@@ -350,4 +381,4 @@ class StockMove:
                 weight,
                 ups_config.weight_uom
             )
-        return math.ceil(weight)
+        return Decimal(math.ceil(weight))
