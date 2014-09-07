@@ -154,15 +154,22 @@ class ShipmentOut:
             else 'None'
         )
 
-        shipment_confirm = \
-            ShipmentConfirm.shipment_confirm_request_type(
-                self.warehouse.address.to_ups_shipper(),
-                self.delivery_address.to_ups_to_address(),
-                self.warehouse.address.to_ups_from_address(),
-                ShipmentConfirm.service_type(Code=self.ups_service_type.code),
-                payment_info, shipment_service,
-                *packages
+        shipment_args = [
+            self.warehouse.address.to_ups_shipper(),
+            self.delivery_address.to_ups_to_address(),
+            self.warehouse.address.to_ups_from_address(),
+            ShipmentConfirm.service_type(Code=self.ups_service_type.code),
+            payment_info, shipment_service,
+        ]
+        if ups_config.negotiated_rates:
+            shipment_args.append(
+                ShipmentConfirm.rate_information_type(negotiated=True)
             )
+
+        shipment_args.extned(packages)
+        shipment_confirm = ShipmentConfirm.shipment_confirm_request_type(
+            *shipment_args
+        )
         return shipment_confirm
 
     def get_ups_shipping_cost(self):
