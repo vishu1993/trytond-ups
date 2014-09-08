@@ -153,6 +153,9 @@ class ShipmentOut:
             SaturdayDelivery='1' if self.ups_saturday_delivery
             else 'None'
         )
+        description = ','.join([
+            move.product.name for move in self.outgoing_moves
+        ])
 
         shipment_args = [
             self.warehouse.address.to_ups_shipper(),
@@ -168,7 +171,7 @@ class ShipmentOut:
 
         shipment_args.extend(packages)
         shipment_confirm = ShipmentConfirm.shipment_confirm_request_type(
-            *shipment_args
+            *shipment_args, Description=description[:35]
         )
         return shipment_confirm
 
