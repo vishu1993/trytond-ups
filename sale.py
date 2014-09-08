@@ -183,7 +183,12 @@ class Sale:
         """
         Create shipments for sale
         """
-        shipments = super(Sale, self).create_shipment(shipment_type)
+        with Transaction().set_context(ignore_carrier_computation=True):
+            # Ignore Carrier computation for creating sale. As there can
+            # be multiple shipments and all will have same cost if
+            # computation done
+            shipments = super(Sale, self).create_shipment(shipment_type)
+
         if shipment_type == 'out' and shipments and self.is_ups_shipping:
             self._update_ups_shipments()
         return shipments
