@@ -393,6 +393,17 @@ class Sale:
             for rated_shipment in response.iterchildren(tag='RatedShipment')
         ])
 
+    def on_change_carrier(self):
+        """
+        Show/Hide UPS Tab in view on change of carrier
+        """
+        res = super(Sale, self).on_change_carrier()
+
+        res['is_ups_shipping'] = self.carrier and \
+            self.carrier.carrier_cost_method == 'ups'
+
+        return res
+
 
 class SaleLine:
     'Sale Line'
