@@ -300,6 +300,17 @@ class ShipmentOut:
         }])
         return tracking_number
 
+    def on_change_carrier(self):
+        """
+        Show/Hide UPS Tab in view on change of carrier
+        """
+        res = super(ShipmentOut, self).on_change_carrier()
+
+        res['is_ups_shipping'] = self.carrier and \
+            self.carrier.carrier_cost_method == 'ups'
+
+        return res
+
 
 class GenerateUPSLabelMessage(ModelView):
     'Generate UPS Labels Message'
