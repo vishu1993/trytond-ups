@@ -424,7 +424,8 @@ class SaleLine:
         UPSConfiguration = Pool().get('ups.configuration')
 
         ups_config = UPSConfiguration(1)
-        if self.product.type == 'service' or self.quantity <= 0:
+        if not self.product or self.product.type == 'service' \
+                or self.quantity <= 0:
             return Decimal(0)
 
         if not self.product.weight:
