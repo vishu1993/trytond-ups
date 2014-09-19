@@ -6,7 +6,7 @@
             <field name="is_ups_shipping"/>
             <newline/>
             <label name="ups_service_type"/>
-            <field name="ups_service_type" colspan="3"/>
+            <field name="ups_service_type" colspan="3" widget="selection"/>
 
             <label name="ups_package_type"/>
             <field name="ups_package_type" colspan="3"/>
