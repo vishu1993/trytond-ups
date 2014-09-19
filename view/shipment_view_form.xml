@@ -11,7 +11,7 @@
             <label name="is_ups_shipping"/>
             <field name="is_ups_shipping"/>
             <label name="ups_service_type"/>
-            <field name="ups_service_type"/>
+            <field name="ups_service_type" widget="selection"/>
             <label name="ups_package_type"/>
             <field name="ups_package_type"/>
             <label name="ups_saturday_delivery"/>
