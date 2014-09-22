@@ -136,6 +136,7 @@ class ShipmentOut:
         """
         Return XML of shipment for shipment_confirm
         """
+        Company = Pool().get('company.company')
         UPSConfiguration = Pool().get('ups.configuration')
 
         ups_config = UPSConfiguration(1)
@@ -168,6 +169,23 @@ class ShipmentOut:
             shipment_args.append(
                 ShipmentConfirm.rate_information_type(negotiated=True)
             )
+        if self.warehouse.address.country.code == 'US' and \
+                self.delivery_address.country.code in ['PR', 'CA']:
+            # Special case for US to PR or CA InvoiceLineTotal should be sent
+            monetary_value = str(sum(map(
+                lambda move: move.get_monetary_value_for_ups(),
+                self.outgoing_moves
+            )))
+
+            company_id = Transaction().context.get('company')
+            if not company_id:
+                self.raise_user_error("Company is not in context")
+
+            company = Company(company_id)
+            shipment_args.append(ShipmentConfirm.invoice_line_total_type(
+                MonetaryValue=monetary_value,
+                CurrencyCode=company.currency.code
+            ))
 
         shipment_args.extend(packages)
         shipment_confirm = ShipmentConfirm.shipment_confirm_request_type(
@@ -357,6 +375,25 @@ class StockMove:
             'weight_required':
                 'Weight for product %s in stock move is missing',
         })
+
+    def get_monetary_value_for_ups(self):
+        """
+        Returns monetary_value as required for ups
+        """
+        ProductUom = Pool().get('product.uom')
+
+        # Find the quantity in the default uom of the product as the weight
+        # is for per unit in that uom
+        if self.uom != self.product.default_uom:
+            quantity = ProductUom.compute_qty(
+                self.uom,
+                self.quantity,
+                self.product.default_uom
+            )
+        else:
+            quantity = self.quantity
+
+        return Decimal(self.product.list_price) * Decimal(quantity)
 
     def get_weight_for_ups(self):
         """
