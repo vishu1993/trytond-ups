@@ -183,7 +183,11 @@ class Sale:
         """
         Create shipments for sale
         """
-        shipments = super(Sale, self).create_shipment(shipment_type)
+        with Transaction().set_context(ignore_carrier_computation=True):
+            # disable `carrier cost computation`(default behaviour) as cost
+            # should only be computed after updating service_type else error may
+            # occur, with improper ups service_type.
+            shipments = super(Sale, self).create_shipment(shipment_type)
 
         if shipment_type == 'out' and shipments and self.is_ups_shipping:
             self._update_ups_shipments()
