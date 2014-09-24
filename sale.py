@@ -351,9 +351,7 @@ class Sale:
         }
 
         return (
-            "%s %s" % (
-                carrier.carrier_product.code, service[0].name
-            ),  # Display name
+            carrier._get_ups_service_name(service[0]),
             cost,
             currency,
             metadata,
