@@ -43,6 +43,17 @@ class Carrier:
 
         return []
 
+    def _get_ups_service_name(self, service):
+        """
+        Return display name for ups service
+
+        This method can be overridden by downstream module to change the default
+        display name of service
+        """
+        return "%s %s" % (
+            self.carrier_product.code, service.name
+        )
+
     def get_sale_price(self):
         """Estimates the shipment rate for the current shipment
 
