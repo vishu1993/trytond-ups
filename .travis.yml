@@ -7,9 +7,15 @@ install:
   - pip install tox
 script: tox
 env:
+  matrix:
   - TOXENV=py27sqlite
   - TOXENV=py27pg
   - TOXENV=flake8
+  global:
+  - secure: 1NEp8tWSKmzCzgDUfOLcKlr8QikByV88qfl6+aget9U796uEbSlA/km5i/9GTD+F8tGuAVubAGgGXn/5iqp563bk232Vf9JncInZh9lruWl1jLryah/CGJ7qaf18vNRJz2BQ2+5pFfYuMePsXkd1pgm4ez8fHAHuaVn3z7Fi7uQ=
+  - secure: 173c8P3qmOn0OOKoc9jXIvCVYU1ZFN3NObA0sL1DIU2rnUBBBLdoYpo7GbdY/CDHJT3aqtBlaYbC0R/ODDSAEYLoOslCT2Lb5jJmTgNRTaN0vdGMK166CCzhj25EpD+Hmw+VlBaD6K1lOTL16GCBK8ILCpDhZrR8HcjwDUDJZlU=
+  - secure: Ar72m/nv31+nNCLI1jWXqpUDpjWTQFSLOOtdjeddiMpcVyqsyCuK7PuStvEp9mvQOFx8UnzlnGvGWEmA/kTeLKl2kKNKUOgjEv6urqWK+zbKFzgT6H1Xfpyexv5x9/qPT82hzIBMR5+QI0/CRZEMFqK84VOl6pjaB1wE5EVZj4w=
+  - secure: mg1rLZZ+fraIbF5SaW+ZSmuMsTpoAdM/9xYvPmj6iF3y6iPrIp0jxW2aTxLpKCt98Vtogx3S+r+5m1vzn/gHqrThghcaX2N4nTng2GI9tXV1r3vY2RHXakXlOGP/Sj9bUGAYxBU4cmydNUstApby2+tQ0lPLBYbC0s7tcJrVPBc=
 notifications:
   email:
   - ci-notify@openlabs.co.in
