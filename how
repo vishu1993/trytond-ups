@@ -1,0 +1,155 @@
+[33mcommit bb6ce07c35a40a7349bc6b0fc55e288ee139ef82[m
+Author: vishu <vishu.jain@openlabs.co.in>
+Date:   Mon Jan 26 23:35:14 2015 +0530
+
+    Added Travis ci and pypi badges #6825
+
+[33mcommit af03ead8b4f53b9b0d3cbd23e78449638ec7599c[m
+Author: Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+Date:   Fri Sep 5 09:17:23 2014 -0400
+
+    Get from address from method
+
+[33mcommit 279a07d6d2c61809e69578991c7bc2e362bbb553[m
+Author: Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+Date:   Fri Sep 5 07:24:44 2014 -0400
+
+    Implement Rating Service
+
+[33mcommit 02d0dcf77f077b1af8481ad1fc511b0eca5261f4[m
+Author: Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+Date:   Fri Sep 5 07:23:42 2014 -0400
+
+    Use weight uom code
+
+[33mcommit 1bf4cea72ab2916cdf3711812ac636b9564223b3[m
+Merge: e8abb63 ca85bb0
+Author: Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+Date:   Thu Sep 4 14:59:43 2014 -0400
+
+    Merge pull request #10 from tarunbhardwaj/develop
+    
+    Fixed hardcoded sandbox
+
+[33mcommit ca85bb0e60070ca7887e98687032ace365b29cc5[m
+Author: Tarun Bhardwaj <tarun.bhardwaj@openlabs.co.in>
+Date:   Fri Sep 5 00:25:28 2014 +0530
+
+    Fixed hardcoded sandbox
+
+[33mcommit e8abb630b68f0184ae4a2a1ed173a1155330e84e[m
+Merge: d0c36a1 78c6139
+Author: Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+Date:   Thu Sep 4 13:38:24 2014 -0400
+
+    Merge pull request #9 from tarunbhardwaj/develop
+    
+    get_sale_price should return currency.id not currency
+
+[33mcommit 78c61393194d91caa708abc9ece54c52f405354c[m
+Author: Tarun Bhardwaj <tarun.bhardwaj@openlabs.co.in>
+Date:   Thu Sep 4 18:31:06 2014 +0530
+
+    get_sale_price should return currency.id not currency
+
+[33mcommit d0c36a1e400d8442b573e9cab7e12810546829bd[m
+Merge: da83bf3 1837e01
+Author: Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+Date:   Thu Sep 4 07:03:57 2014 -0400
+
+    Merge pull request #8 from tarunbhardwaj/get_rates
+    
+    Add get_rates method
+
+[33mcommit 1837e01ed13b9c233b9e0aab05f9559de5bbfe70[m
+Author: Tarun Bhardwaj <tarun.bhardwaj@openlabs.co.in>
+Date:   Thu Sep 4 16:19:55 2014 +0530
+
+    Add get_rates method
+
+[33mcommit da83bf3dbe2881987b22f8412f77d098c7498fc8[m
+Merge: 7df6eb8 0b92c98
+Author: Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+Date:   Wed Sep 3 09:56:02 2014 -0400
+
+    Merge pull request #7 from tarunbhardwaj/currency-digit-5707
+    
+    Round the shipping_amount according to currency #5707
+
+[33mcommit 0b92c98255027d96feefd37ae307b08ff51e605b[m
+Author: Tarun Bhardwaj <tarun.bhardwaj@openlabs.co.in>
+Date:   Wed Sep 3 18:56:39 2014 +0530
+
+    Round the shipping_amount according to currency #5707
+    
+    Quantize the shipping amount as per currency
+
+[33mcommit 7df6eb82c2ffcded55465a8b3801d66e0b9e4613[m
+Merge: 8fbc672 d0c917e
+Author: Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+Date:   Wed Sep 3 06:25:09 2014 -0400
+
+    Merge pull request #6 from tarunbhardwaj/shipping_cost_sale
+    
+    Sale should not attach shipping cost with shipment
+
+[33mcommit d0c917e82f52b6cbeaf6e63d20f85bdf2ea8556d[m
+Author: Tarun Bhardwaj <tarun.bhardwaj@openlabs.co.in>
+Date:   Wed Sep 3 15:13:46 2014 +0530
+
+    Sale should not attach shipping cost with shipment
+
+[33mcommit 8fbc67255d747737693c574d0ff44d8434265517[m
+Merge: 3f31b46 c925cae
+Author: Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+Date:   Mon Sep 1 14:48:32 2014 -0400
+
+    Merge pull request #4 from tarunbhardwaj/ups-integration-5256
+    
+    Error args should be in tuple
+
+[33mcommit c925caeb52b2bb0b80d8b5a51abf6e6859f11ff8[m
+Author: Tarun Bhardwaj <tarun.bhardwaj@openlabs.co.in>
+Date:   Mon Sep 1 21:17:00 2014 +0530
+
+    Fixed error_args in user_error
+
+[33mcommit 3f31b4691f84846a36e645d6cca0e5400d98fc15[m
+Merge: 85a8da4 48f3937
+Author: Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+Date:   Mon Sep 1 05:37:28 2014 -0400
+
+    Merge pull request #3 from tarunbhardwaj/ups-integration-5256
+    
+    Basic module for UPS integration with tryton #5256
+
+[33mcommit 48f39377d45fdff6fc044ebdef4b19338d348997[m
+Author: Tarun Bhardwaj <tarun.bhardwaj@openlabs.co.in>
+Date:   Tue Aug 26 14:09:03 2014 +0530
+
+    Basic module for UPS integration with tryton #5256
+    
+    * Get shipment cost.
+    * Accept shipment cost.
+    * Wizard to generate label for shipment.
+
+[33mcommit 85a8da4cbdc7efc792d737b7aa5872609d2dce13[m
+Merge: 5959998 1438330
+Author: rituparnapanda <rituparna.panda@openlabs.co.in>
+Date:   Mon Jul 28 13:01:04 2014 +0530
+
+    Merge pull request #1 from priyankarani/master
+    
+    Boiler plate of module #5250
+
+[33mcommit 1438330dc2d070982da9f0d5bd0bc2614cc9c506[m
+Author: Priyanka Rani <priyanka.rani@openlabs.co.in>
+Date:   Thu Jul 24 13:37:59 2014 +0530
+
+    Boiler plate of module #5250
+
+[33mcommit 59599985f58fd7c1244119ecacc679a814cd084e[m
+Author: rituparnapanda <rituparna.panda@openlabs.co.in>
+Date:   Thu Jul 24 12:46:56 2014 +0530
+
+    Initial commit
